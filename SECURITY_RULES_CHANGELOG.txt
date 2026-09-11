@@ -1,0 +1,8 @@
+Security hardening applied:
+- Patient profile owners can no longer promote their own profile by changing accountStatus.
+- Profile uid/profileId are immutable for owners.
+- Access-log creation is tied to the authenticated scanner's role and allowed category.
+- Access-log scannerName must match the authenticated user's stored name.
+- Access logs require the target profile to exist.
+- Existing doctor/educator/police/emergency read restrictions remain intact.
+- No authentication or application UI code was intentionally changed.

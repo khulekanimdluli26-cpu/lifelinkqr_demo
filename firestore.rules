@@ -1,0 +1,258 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function hasUserDoc() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function scannerRole() {
+      return hasUserDoc() ? userDoc().data.role : null;
+    }
+
+    function scannerIsApproved() {
+      return hasUserDoc()
+        && userDoc().data.accountStatus == 'active'
+        && userDoc().data.verificationStatus == 'approved';
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function validRole(role) {
+      return role in ['doctor', 'police', 'educator', 'civilian'];
+    }
+
+    function profileOwner(profileId) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/profiles/$(profileId))
+        && get(/databases/$(database)/documents/profiles/$(profileId)).data.uid == request.auth.uid;
+    }
+
+    function activeProfile(profileId) {
+      return exists(/databases/$(database)/documents/profiles/$(profileId))
+        && get(/databases/$(database)/documents/profiles/$(profileId)).data.accountStatus == 'active'
+        && exists(/databases/$(database)/documents/users/$(get(/databases/$(database)/documents/profiles/$(profileId)).data.uid))
+        && get(/databases/$(database)/documents/users/$(get(/databases/$(database)/documents/profiles/$(profileId)).data.uid)).data.accountStatus == 'active'
+        && get(/databases/$(database)/documents/users/$(get(/databases/$(database)/documents/profiles/$(profileId)).data.uid)).data.verificationStatus == 'approved'
+        && get(/databases/$(database)/documents/users/$(get(/databases/$(database)/documents/profiles/$(profileId)).data.uid)).data.qrStatus == 'active';
+    }
+
+    function roleCanAccessCategory(role, category) {
+      return (role == 'doctor' && category == 'medical')
+        || (role == 'educator' && category == 'academic')
+        || (role == 'police' && category == 'criminal')
+        || (role == 'civilian' && category == 'emergency');
+    }
+
+    // Administrator identity document.
+    // Create this manually once: admins/{ADMIN_FIREBASE_UID} with role = "admin".
+    match /admins/{adminId} {
+      allow read: if signedIn() && request.auth.uid == adminId;
+      allow write: if false;
+    }
+
+    // Scanner/user accounts.
+    match /users/{userId} {
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == request.auth.uid
+        && validRole(request.resource.data.role)
+        && request.resource.data.accountStatus == 'pending'
+        && request.resource.data.verificationStatus == 'pending'
+        && request.resource.data.profileId is string;
+
+      allow read: if isOwner(userId) || isAdmin();
+
+      // Only administrators can approve/reject accounts.
+      // A user may update only harmless fields while preserving role/status/profile identity.
+      allow update: if isAdmin()
+        || (isOwner(userId)
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.profileId == resource.data.profileId
+          && request.resource.data.accountStatus == resource.data.accountStatus
+          && request.resource.data.verificationStatus == resource.data.verificationStatus);
+
+      allow delete: if false;
+    }
+
+    // Basic identity is visible to an authenticated scanner.
+    // Sensitive records live only in protected subcollections below.
+    match /profiles/{profileId} {
+      allow read: if signedIn();
+
+      allow create: if isAdmin()
+        || (signedIn()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.profileId == profileId
+          && request.resource.data.accountStatus == 'pending');
+
+      // Owners may edit their profile content, but cannot change the security identity/status fields.
+      allow update: if isAdmin()
+        || (profileOwner(profileId)
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.profileId == resource.data.profileId
+          && request.resource.data.accountStatus == resource.data.accountStatus);
+      allow delete: if isAdmin();
+    }
+
+    // IMPORTANT:
+    // A verified scanner can READ only its authorised category.
+    // Only an administrator can CREATE/UPDATE/DELETE protected records.
+    // This prevents a scanner from modifying sensitive information.
+
+    match /profiles/{profileId}/medicalRecords/{recordId} {
+      allow read: if isAdmin() || (scannerRole() == 'doctor' && scannerIsApproved() && activeProfile(profileId));
+      allow create, update, delete: if isAdmin() || profileOwner(profileId);
+    }
+
+    match /profiles/{profileId}/criminalRecords/{recordId} {
+      allow read: if isAdmin() || (scannerRole() == 'police' && scannerIsApproved() && activeProfile(profileId));
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /profiles/{profileId}/academicRecords/{recordId} {
+      allow read: if isAdmin() || profileOwner(profileId) || (scannerRole() == 'educator' && scannerIsApproved() && activeProfile(profileId));
+      allow create, update, delete: if isAdmin() || profileOwner(profileId);
+    }
+
+    match /profiles/{profileId}/civilianRecords/{recordId} {
+      allow read: if isAdmin() || profileOwner(profileId) || (scannerRole() == 'civilian' && scannerIsApproved() && activeProfile(profileId));
+      allow create, update, delete: if isAdmin() || profileOwner(profileId);
+    }
+
+    // Access audit history.
+    // The patient owner can READ their own history.
+    // Approved professionals can CREATE a log for a scan, but cannot read or modify it.
+    match /profiles/{profileId}/accessLogs/{logId} {
+      allow read: if isAdmin() || profileOwner(profileId);
+
+      allow create: if scannerIsApproved()
+        && activeProfile(profileId)
+        && request.resource.data.scannerUid == request.auth.uid
+        && request.resource.data.scannerRole == scannerRole()
+        && request.resource.data.scannerName == userDoc().data.name
+        && request.resource.data.accessedCategory is string
+        && roleCanAccessCategory(scannerRole(), request.resource.data.accessedCategory)
+        && request.resource.data.categoryLabel is string
+        && request.resource.data.result == 'authorised'
+        && request.resource.data.scannedAt == request.time;
+
+      allow update, delete: if isAdmin();
+    }
+
+
+    // Professional qualification submissions. Owners can create/read their own submissions; admins can review/update them.
+    match /users/{userId}/qualifications/{qualificationId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Professional skills. Owners manage their own skills; administrators can review them.
+    // Storage is intentionally not involved.
+    // ==================== STAGE 9: CUSTOMER MARKETPLACE ====================
+    // Safe public-facing professional directory. Customers never read /users directly.
+    match /customers/{customerId} {
+      allow create: if signedIn()
+        && request.auth.uid == customerId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.accountStatus == 'active';
+      allow read: if isOwner(customerId) || isAdmin();
+      allow update: if isOwner(customerId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.accountStatus == resource.data.accountStatus;
+      allow delete: if false;
+    }
+
+    match /professionalDirectory/{professionalId} {
+      allow read: if signedIn();
+      allow create: if isOwner(professionalId)
+        && request.resource.data.uid == request.auth.uid
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && request.resource.data.profileId == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.profileId
+        && request.resource.data.name == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.name
+        && request.resource.data.role == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        && request.resource.data.identityStatus == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.verificationStatus
+        && request.resource.data.accountStatus == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.accountStatus;
+      allow update: if isAdmin() || (isOwner(professionalId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.profileId == resource.data.profileId
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.identityStatus == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.verificationStatus
+        && request.resource.data.accountStatus == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.accountStatus);
+      allow delete: if isAdmin();
+    }
+
+    // ==================== STAGE 10: JOBS, QUOTES & REPUTATION ====================
+    match /serviceRequests/{requestId} {
+      allow create: if signedIn()
+        && exists(/databases/$(database)/documents/customers/$(request.auth.uid))
+        && request.resource.data.customerUid == request.auth.uid
+        && request.resource.data.professionalUid is string
+        && exists(/databases/$(database)/documents/users/$(request.resource.data.professionalUid))
+        && request.resource.data.status == 'requested';
+      allow read: if isAdmin() || (signedIn()
+        && (resource.data.customerUid == request.auth.uid || resource.data.professionalUid == request.auth.uid));
+      allow update: if isAdmin()
+        || (signedIn() && resource.data.customerUid == request.auth.uid)
+        || (signedIn() && resource.data.professionalUid == request.auth.uid
+          && request.resource.data.customerUid == resource.data.customerUid
+          && request.resource.data.professionalUid == resource.data.professionalUid);
+      allow delete: if isAdmin() || (signedIn() && resource.data.customerUid == request.auth.uid);
+    }
+
+    // ==================== STAGE 11: SMALL BUSINESS OPERATING SYSTEM ====================
+    match /businesses/{businessId} {
+      allow read, create, update: if isAdmin() || isOwner(businessId);
+      allow delete: if isAdmin();
+    }
+
+    match /businessServices/{serviceId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.businessUid == request.auth.uid;
+      allow update, delete: if signedIn() && resource.data.businessUid == request.auth.uid;
+    }
+
+    match /businessCustomers/{customerId} {
+      allow read: if signedIn() && resource.data.businessUid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.businessUid == request.auth.uid;
+      allow update, delete: if signedIn() && resource.data.businessUid == request.auth.uid;
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && exists(/databases/$(database)/documents/customers/$(request.auth.uid))
+        && request.resource.data.customerUid == request.auth.uid
+        && request.resource.data.professionalUid is string
+        && request.resource.data.requestId is string
+        && exists(/databases/$(database)/documents/serviceRequests/$(request.resource.data.requestId))
+        && get(/databases/$(database)/documents/serviceRequests/$(request.resource.data.requestId)).data.customerUid == request.auth.uid
+        && get(/databases/$(database)/documents/serviceRequests/$(request.resource.data.requestId)).data.professionalUid == request.resource.data.professionalUid
+        && get(/databases/$(database)/documents/serviceRequests/$(request.resource.data.requestId)).data.status == 'completed'
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5;
+      allow update, delete: if isAdmin() || (signedIn() && resource.data.customerUid == request.auth.uid);
+    }
+
+  }
+}

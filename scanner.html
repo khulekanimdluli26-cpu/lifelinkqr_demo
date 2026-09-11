@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LifeLinkQR - Scanner</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div>
+
+        <h1>LifeLinkQR</h1>
+
+        <p>
+            Secure QR Information Scanner
+        </p>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="card">
+
+        <h2>
+            📷 Scan LifeLinkQR
+        </h2>
+
+        <p>
+            Scan a person's LifeLinkQR code.
+            The same QR code can show different information depending on the authenticated scanner profession.
+        </p>
+
+
+        <button id="startScannerBtn" type="button" style="display:block;margin:20px auto;padding:14px 24px;font-size:16px;cursor:pointer;">📷 Start Camera Scanner</button>
+
+        <div id="reader" style="max-width:500px;margin:25px auto;min-height:280px;"></div>
+
+
+        <div id="scanMessage">
+
+            Point the camera at a LifeLinkQR code.
+
+        </div>
+
+
+
+
+    </section>
+
+
+    <section
+        class="card"
+        id="scanResult"
+        style="display:none;"
+    >
+        <h2>✓ QR Code Detected</h2>
+        <p><strong>LifeLinkQR ID:</strong> <span id="scannedId"></span></p>
+        <button id="openResultBtn" type="button" class="primary-btn">View Authorised Information</button>
+    </section>
+
+    <div id="resultModal" class="result-modal" aria-hidden="true">
+        <div class="result-backdrop" data-close-modal></div>
+        <div class="result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultModalTitle">
+            <button id="closeResultBtn" class="modal-close" type="button" aria-label="Close">×</button>
+            <div id="resultMessage"></div>
+            <button id="closeResultBtnBottom" type="button" class="primary-btn modal-bottom-close">Close</button>
+        </div>
+    </div>
+
+</main>
+
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+
+<script
+    type="module"
+    src="js/scanner.js?v=20260909-final"
+></script>
+
+</body>
+
+</html>

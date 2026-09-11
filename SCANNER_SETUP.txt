@@ -1,0 +1,11 @@
+LifeLinkQR Scanner Setup
+
+1. Run the project using VS Code Live Server. Do NOT open scanner.html directly with file://.
+2. Log in as an approved professional.
+3. Open Dashboard -> Scan QR Code.
+4. Click Start Camera Scanner.
+5. Allow camera permission.
+6. Scan the patient QR containing LLQ-DEMO2026.
+7. Doctor sees medicalRecords only; police sees criminalRecords only; educator sees academicRecords only; civilian sees civilianRecords only.
+
+If the camera does not start, check Chrome site permissions for Camera and ensure the URL begins with http://localhost or https://.

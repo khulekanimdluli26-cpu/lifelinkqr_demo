@@ -1,0 +1,15 @@
+Audit Dashboard Fix V3
+
+The dashboard now uses collectionGroup("accessLogs") WITHOUT where() or orderBy().
+That removes the composite-index requirement.
+
+The Firestore rule remains the security boundary:
+allow read: if isAdmin() || profileOwner(profileId);
+
+The admin page first verifies admins/{currentUser.uid}, then reads the collection group.
+
+Existing access logs are expected at:
+profiles/{profileId}/accessLogs/{logId}
+
+Existing scanner fields supported:
+scannerUid, scannerName, scannerRole, accessedCategory, categoryLabel, result, scannedAt.

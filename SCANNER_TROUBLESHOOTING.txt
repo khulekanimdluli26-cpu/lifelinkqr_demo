@@ -1,0 +1,14 @@
+LIFELINKQR SCANNER - FINAL TEST
+
+1. Extract this ZIP.
+2. Open the folder in VS Code.
+3. Start Live Server. Use http://localhost:... NOT file://.
+4. Log in as the approved doctor account.
+5. Open scanner.html from the dashboard.
+6. The Start Camera Scanner button should be enabled.
+7. Click it. Chrome should ask for camera permission; choose Allow.
+8. Scan the QR containing LLQ-DEMO2026.
+9. Doctor must receive medicalRecords/main only.
+10. Log out and repeat with an approved police account; the same QR must return criminalRecords/main only.
+
+The button no longer stays disabled while Firebase authentication is restoring. If Firebase is slow, clicking the button waits for authentication and displays a message instead of silently doing nothing.

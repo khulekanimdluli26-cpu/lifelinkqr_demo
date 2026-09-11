@@ -1,0 +1,5 @@
+
+.record-updated-at,.updated-at,.timestamp-label{
+  color:var(--muted,#667085);
+  font-size:.86rem;
+}

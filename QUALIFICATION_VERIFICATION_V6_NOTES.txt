@@ -1,0 +1,16 @@
+LifeLinkQR V6 — Firestore-only qualification verification
+
+Storage has intentionally been removed for now because Firebase Storage setup requires billing on this project.
+
+Current behavior:
+- Professional submits qualification metadata and an optional document filename/reference.
+- Submission is stored under users/{uid}/qualifications/{qualificationId}.
+- Status starts as pending.
+- Admin can review, verify, reject and add a note.
+- No Firebase Storage upload or storage rule deployment is required.
+
+Future Storage upgrade:
+- Keep the existing qualification document structure.
+- Populate documentReference/filePath/downloadUrl when Storage becomes available.
+- Restore getStorage() in js/firebase.js and upload logic in js/qualifications.js.
+- Add/deploy storage.rules at that time.

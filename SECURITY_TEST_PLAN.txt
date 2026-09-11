@@ -1,0 +1,18 @@
+LifeLinkQR Security Test Plan
+
+1. Doctor: same QR -> medical record succeeds.
+2. Doctor: academic/criminal/emergency attempts must be denied by Firestore.
+3. Educator: same QR -> academic record succeeds.
+4. Educator: medical/criminal/emergency attempts must be denied.
+5. Police: same QR -> criminal record succeeds.
+6. Police: medical/academic/emergency attempts must be denied.
+7. Emergency responder: same QR -> civilianRecords succeeds.
+8. Emergency responder: medical/academic/criminal attempts must be denied.
+9. Unapproved professional: protected reads denied.
+10. Signed-out user: protected reads denied.
+11. Patient owner: own medical/academic/emergency records can be edited.
+12. Patient owner: criminal records remain admin-controlled.
+13. Patient owner: cannot change profile uid, profileId, or accountStatus.
+14. Patient A cannot read/write Patient B protected records.
+15. Access logs: only patient owner/admin can read; approved scanner can create only its own role's category.
+16. Scanner must never rely on hidden UI as security; Firestore rules must enforce all protected access.

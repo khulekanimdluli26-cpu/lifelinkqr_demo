@@ -1,0 +1,24 @@
+LIFELINKQR ADMIN VERIFICATION SETUP
+
+1. Create the administrator's Firebase Authentication account.
+2. Sign in once to obtain that administrator's Firebase Auth UID.
+3. In Firestore, manually create this document:
+
+admins/{ADMIN_UID}
+
+Example fields:
+role: "admin"
+name: "LifeLinkQR Administrator"
+
+Do NOT allow normal users to create documents in /admins. The included rules block all client writes to that collection.
+
+4. Deploy firestore.rules.
+5. Open admin.html while logged in with the administrator account.
+6. Approve a Doctor/Police/Educator/Civilian account.
+7. The approved account becomes active and can use the scanner.
+
+IMPORTANT:
+- Registration intentionally creates professional accounts as pending.
+- A pending account cannot scan protected records.
+- The same QR code can be scanned by different approved professions.
+- Firestore rules enforce category isolation server-side.

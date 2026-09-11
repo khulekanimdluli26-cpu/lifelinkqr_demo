@@ -1,0 +1,15 @@
+LifeLinkQR Owner Portal finalisation
+- Fixed the Medical/Emergency field-ID collision.
+- Emergency blood type/allergies and Medical blood type/allergies now have separate DOM IDs.
+- Each owner form maps to its own Firestore collection and fields.
+- Last-updated timestamps are shown in human-readable form.
+- Criminal history remains protected and is not owner-editable.
+- Firestore security rules were not changed in this UI update.
+
+Test:
+1. Log in as the patient owner.
+2. Save Emergency information.
+3. Save Medical information.
+4. Save Academic information.
+5. Refresh and confirm each section retains the correct values.
+6. Scan the same QR as each approved role and confirm the correct popup remains unchanged.

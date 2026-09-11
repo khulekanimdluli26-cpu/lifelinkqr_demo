@@ -1,0 +1,27 @@
+LifeLinkQR Access Audit Log
+
+WHAT IT DOES
+Every successful professional scan creates:
+profiles/{profileId}/accessLogs/{autoId}
+
+Stored fields:
+- scannerUid
+- scannerName
+- scannerRole
+- accessedCategory
+- categoryLabel
+- result
+- reason
+- scannedAt
+
+PATIENT VIEW
+The patient dashboard shows the latest 20 authorised access events.
+
+SECURITY
+- Patient owner: can read their own access history.
+- Approved professional: can create a scan log, but cannot read, edit, or delete audit logs.
+- Administrator: can read and manage audit logs.
+- The audit entry contains access metadata, not the protected medical/academic/criminal record itself.
+
+FIRESTORE
+Deploy the included firestore.rules only after testing in Firebase Rules Playground.

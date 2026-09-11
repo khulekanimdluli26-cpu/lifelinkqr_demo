@@ -1,0 +1,1 @@
+Timestamp popup V2 fix: scanner.js explicitly converts native and serialized Firestore Timestamp values before generic object formatting. scanner.html includes a cache-busting version query so browsers load the corrected script.

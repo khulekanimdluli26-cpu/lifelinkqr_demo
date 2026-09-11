@@ -1,0 +1,30 @@
+LIFELINKQR DEMO42 — STAGE 11: SMALL BUSINESS OPERATING SYSTEM
+
+Built on V10.
+
+New business tools:
+- business-dashboard.html: business overview and job counters
+- business-profile.html: business identity, contact details and service area
+- business-services.html: create/delete services and starting prices
+- business-customers.html: create/delete customer records
+- professional dashboard now links to Business OS
+
+Firestore collections:
+- businesses/{uid}
+- businessServices/{serviceId}
+- businessCustomers/{customerId}
+
+Security:
+- Business profile is owner/admin controlled.
+- Business service records are readable by signed-in users; only the owning business can create/update/delete them.
+- Business customer records are private to the owning business.
+- No Firebase Storage is used.
+- Existing Stage 10 duplicate serviceRequests rules were merged into one rule.
+
+Important:
+Deploy Firestore rules only:
+"%APPDATA%\\npm\\firebase.cmd" deploy --only firestore:rules
+Do NOT run full Firebase deploy while Storage billing/setup is unavailable.
+
+Stage 11 is the foundation for:
+employees/team management, invoices, expenses, calendar, analytics, AI assistant and payments in Stage 12/production.

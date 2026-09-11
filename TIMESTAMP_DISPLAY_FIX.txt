@@ -1,0 +1,1 @@
+Raw Firestore timestamp objects are now formatted as human-readable dates in scanner results. Database timestamps remain native Firestore Timestamp values.

@@ -1,0 +1,31 @@
+LifeLinkQR Stage 9 — Customer Marketplace
+
+Implemented:
+- Customer registration and customer dashboard
+- Customer profile editing
+- Professional marketplace directory
+- Professional marketplace profile publishing
+- Customer search/filter by name, profession, service area and skills
+- Professional public marketplace profile
+- Customer request quote/service workflow
+- Customer service-request history
+- Login routing: customers -> customer dashboard; professionals -> existing dashboard
+- Firestore rules for customers, professionalDirectory and serviceRequests
+- No Firebase Storage required
+
+Important security design:
+- Customers do NOT receive access to protected medical, criminal, academic or emergency records.
+- Marketplace uses professionalDirectory as a safe public-facing layer rather than exposing /users documents.
+- Sensitive qualifications and scanner records remain protected.
+- Storage remains unused and can be added later when billing is available.
+
+Test flow:
+1. Register a customer at customer-register.html.
+2. Register/login a professional account using the existing register.html.
+3. Professional opens Professional Trust Profile -> Manage Marketplace Profile and publishes a service profile.
+4. Customer opens Find Professionals, searches and opens a professional.
+5. Customer clicks Request Quote / Service and submits a request.
+6. Customer opens My Service Requests to see the request.
+
+Deploy only Firestore rules while Storage billing remains unavailable:
+"%APPDATA%\\npm\\firebase.cmd" deploy --only firestore:rules

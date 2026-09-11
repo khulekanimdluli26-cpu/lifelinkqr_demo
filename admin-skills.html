@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeLinkQR — Skill Verification</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.wrap{max-width:1150px;margin:30px auto;padding:0 18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}input,select{padding:11px;border:1px solid #ccc;border-radius:8px}.table{width:100%;border-collapse:collapse;background:#fff}.table th,.table td{padding:12px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}.badge{display:inline-block;padding:4px 8px;border-radius:99px;font-size:12px;font-weight:700}.pending{background:#fff3cd}.verified{background:#d1e7dd}.rejected{background:#f8d7da}.view{padding:8px 12px;border:0;border-radius:8px;cursor:pointer}.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.card{background:#fff;max-width:680px;width:100%;border-radius:14px;padding:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.item{background:#f7f7f7;padding:12px;border-radius:8px}.note{width:100%;box-sizing:border-box;padding:10px;margin-top:15px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.approve{background:#198754;color:#fff}.reject{background:#dc3545;color:#fff}.actions button{padding:9px 13px;border:0;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p><a href="admin.html">← Admin Control Centre</a></p>
+<h1>🛠️ Skill Verification</h1>
+<p>Review professional skills before they are presented as verified.</p>
+<div class="toolbar">
+<input id="search" placeholder="Search professional, skill or category">
+<select id="status"><option value="all">All</option><option value="pending">Pending</option><option value="verified">Verified</option><option value="rejected">Rejected</option></select>
+<button id="refresh">↻ Refresh</button>
+</div>
+<p id="msg">Checking administrator access...</p>
+<div style="overflow:auto"><table class="table"><thead><tr><th>Professional</th><th>Skill</th><th>Proficiency</th><th>Status</th><th>Created</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+<div class="modal" id="modal"><div class="card"><h2>Skill Review</h2><div id="details"></div><textarea id="note" class="note" rows="3" maxlength="500" placeholder="Verification note (optional)"></textarea><div class="actions"><button class="approve" id="verify">✓ Verify Skill</button><button class="reject" id="reject">Reject</button><button id="close">Close</button></div></div></div>
+<script type="module" src="js/admin-skills.js"></script>
+</body></html>

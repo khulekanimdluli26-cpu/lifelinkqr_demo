@@ -1,0 +1,51 @@
+LIFELINKQR — SAME QR, DIFFERENT AUTHORISED INFORMATION
+========================================================
+
+Purpose
+-------
+This demonstration proves the central LifeLinkQR idea:
+ONE PERSON owns ONE LifeLinkQR ID/QR code. The information returned from that
+same QR depends on the authenticated and verified profession of the scanner.
+
+Example patient
+---------------
+Name: Thando Mthembu (Demo Patient)
+LifeLinkQR ID: LLQ-DEMO2026
+
+The demo creates four protected Firestore documents:
+profiles/LLQ-DEMO2026/medicalRecords/main
+profiles/LLQ-DEMO2026/criminalRecords/main
+profiles/LLQ-DEMO2026/academicRecords/main
+profiles/LLQ-DEMO2026/civilianRecords/main
+
+Expected behaviour
+------------------
+Doctor + LLQ-DEMO2026  -> medicalRecords/main ONLY
+Police + LLQ-DEMO2026  -> criminalRecords/main ONLY
+Educator + LLQ-DEMO2026 -> academicRecords/main ONLY
+Civilian + LLQ-DEMO2026 -> civilianRecords/main ONLY
+
+The scanner does not download all four documents and hide three of them.
+It requests only the collection authorised for the scanner profession.
+Firestore rules enforce the same restriction on the server.
+
+How to test
+-----------
+1. Deploy firestore.rules to the Firebase project used by js/firebase.js.
+2. Create an administrator account and add admins/{ADMIN_UID} in Firestore.
+3. Open admin.html while logged in as the administrator.
+4. Click Create / Reset Demo Patient.
+5. Create separate test accounts for Doctor, Police, Educator and Civilian.
+6. Have the administrator approve each scanner account.
+7. Login as the approved Doctor and open scanner.html. Scan/enter LLQ-DEMO2026.
+8. Confirm that only the medical information appears.
+9. Login as the approved Police account and scan the SAME LLQ-DEMO2026.
+10. Confirm that only criminal history appears.
+11. Repeat with Educator and Civilian.
+
+Important
+---------
+The demo data is fictional. Do not enter real medical, criminal or other
+sensitive personal information into this demo project until a production
+security/privacy review, legal review and proper professional verification
+process have been completed.

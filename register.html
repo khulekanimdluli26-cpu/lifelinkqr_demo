@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LifeLinkQR - Register</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div>
+        <h1>LifeLinkQR</h1>
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="login.html">
+            Login
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="card">
+
+        <h2>Create Your LifeLinkQR Account</h2>
+
+        <p>
+            Register to create your secure LifeLinkQR profile.
+        </p>
+
+
+        <form id="registerForm">
+
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                id="name"
+                type="text"
+                required
+            >
+
+
+            <br><br>
+
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                required
+            >
+
+
+            <br><br>
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                minlength="6"
+                required
+            >
+
+
+            <br><br>
+
+
+            <label>
+                Profession
+            </label>
+
+            <select
+                id="profession"
+                required
+            >
+
+                <option value="">
+                    Select profession
+                </option>
+
+                <option value="doctor">
+                    Doctor
+                </option>
+
+                <option value="police">
+                    Police Officer
+                </option>
+
+                <option value="educator">
+                    Educator
+                </option>
+
+                <option value="civilian">
+                    Civilian
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <button id="registerButton" type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p id="message"></p>
+
+        <section id="qrSection" class="card" style="display:none; margin-top:25px;">
+            <h2>Your LifeLinkQR Profile</h2>
+            <p><strong>LifeLinkQR ID:</strong> <span id="profileIdDisplay">-</span></p>
+            <div id="profileSummary"></div>
+            <div id="qrcode" style="margin:25px 0;"></div>
+            <p>Keep this QR code secure. It contains only your LifeLinkQR ID.</p>
+            <a href="login.html">Continue to Login</a> · <a href="customer-register.html">I am a Customer</a>
+        </section>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module" src="js/register.js"></script>
+
+</body>
+
+</html>

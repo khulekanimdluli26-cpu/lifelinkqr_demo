@@ -1,0 +1,14 @@
+LifeLinkQR Audit Monitoring V1
+
+Uses the existing nested audit structure:
+profiles/{profileId}/accessLogs/{logId}
+
+Administrator-only UI. Uses a Firestore collection-group query for accessLogs.
+No Firestore rules were weakened.
+
+Test:
+1. Sign in as admin.
+2. Open audit-dashboard.html.
+3. Confirm existing scan events appear.
+4. Run a new authorised scan and refresh.
+5. Confirm the new event appears with a readable timestamp.

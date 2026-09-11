@@ -1,0 +1,19 @@
+LifeLinkQR Audit Dashboard Fixed V2
+
+The previous version used a collectionGroup("accessLogs") query. That can fail
+because of Firestore collection-group query/rules/index behaviour.
+
+This version does NOT use collectionGroup.
+
+Admin flow:
+1. Verify admins/{currentAuthUid}.
+2. Read the profiles collection.
+3. For each profile, read profiles/{profileId}/accessLogs.
+4. Combine and sort the events in the browser.
+
+No composite index is required.
+
+Important:
+The current Firestore rules only allow creation of an access log when the scan
+is authorised. Therefore the audit trail currently contains authorised events.
+Denied attempts are intentionally not written by the existing rules/scanner.

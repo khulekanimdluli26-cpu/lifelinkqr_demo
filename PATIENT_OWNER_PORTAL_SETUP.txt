@@ -1,0 +1,19 @@
+PATIENT OWNER PORTAL
+
+1. Open dashboard.html after logging in.
+2. Click “Manage My Information”.
+3. The portal loads the logged-in user's profileId from users/{uid}.
+4. The patient can manage civilian/emergency, medical and academic records.
+5. Criminal history is intentionally not editable by the patient.
+6. The scanner still uses role-specific collections only.
+
+IMPORTANT FIRESTORE MODEL
+- Patient owner: read/write own civilian, medical and academic records.
+- Patient owner: cannot edit criminal history.
+- Approved doctor: read medical only.
+- Approved educator: read academic only.
+- Approved police: read criminal only.
+- Approved civilian: read civilian/emergency only.
+- Admin: manage protected records.
+
+Deploy firestore.rules only after reviewing/testing it in the Firebase Rules simulator.

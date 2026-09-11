@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifeLinkQR - My Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .dashboard-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+    .id-box{background:#eef5ff;border:1px solid #d7e6ff;border-radius:14px;padding:18px;text-align:center}
+    .id-value{font-size:28px;font-weight:800;letter-spacing:1px;margin:8px 0}
+    .qr-wrap{display:flex;justify-content:center;align-items:center;min-height:250px}
+    .qr-note{color:#64748b;text-align:center;font-size:14px}
+    .action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .action{display:block;text-decoration:none;padding:16px;border:1px solid #dbe3ef;border-radius:12px;background:#fff;color:#172033;font-weight:700}
+    .action:hover{background:#f8fafc}
+    .record-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+    .record-card{border:1px solid #e2e8f0;border-radius:12px;padding:18px;background:#fafcff}
+    .record-card h3{margin-top:0}.record-status{font-size:13px;color:#64748b}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#e8f7ee;color:#166534;font-size:13px;font-weight:700}
+    .message{padding:12px;border-radius:10px;background:#f8fafc;color:#64748b;margin-top:12px}
+    #logoutBtn{cursor:pointer;border:0;border-radius:8px;padding:10px 16px;font-weight:700}
+    @media(max-width:800px){.dashboard-grid,.record-grid,.action-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>LifeLinkQR</h1>
+    <p>My Patient / Client Dashboard</p>
+  </div>
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<main>
+  <section class="card">
+    <h2 id="welcome">Loading...</h2>
+    <p>Your LifeLinkQR profile is the owner of this QR identity.</p>
+    <span class="pill" id="status">Checking account...</span>
+  </section>
+
+  <div class="dashboard-grid">
+    <section class="card">
+      <h2>My Profile</h2>
+      <p><strong>Name:</strong> <span id="name">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+      <p><strong>Profession:</strong> <span id="profession">Loading...</span></p>
+      <p><strong>LifeLinkQR ID:</strong> <span id="profileId">Loading...</span></p>
+
+      <div class="action-grid">
+        <a class="action" href="skills.html">🛠️ My Skills</a>
+        <a class="action" href="qualification.html">📄 My Qualifications</a>
+        <a class="action" href="owner-access-history.html">🔐 Access Logs</a>
+        <a class="action" href="professional-profile.html">🛡️ Trust Profile</a>
+        <a class="action" href="professional-jobs.html">📋 Customer Jobs</a>
+        <a class="action" href="business-dashboard.html">🏢 Business OS</a>
+        <a class="action" href="patient-records.html">✏️ Manage My Information</a>
+        <a class="action" href="#my-records">📋 My Information</a>
+        <a class="action" href="#my-qr">🔳 My QR Code</a>
+        <a class="action" href="qr-status.html">🔐 QR Security</a>
+        <a class="action" href="scanner.html">📷 Scan a LifeLinkQR</a>
+        <a class="action" href="index.html">🏠 Home</a>
+      </div>
+    </section>
+
+    <section class="card" id="my-qr">
+      <h2>My LifeLinkQR</h2>
+      <p class="qr-note">This QR contains only your LifeLinkQR ID.</p>
+      <div class="qr-wrap" id="qrcode"></div>
+      <div class="id-box">
+        <div>LifeLinkQR ID</div>
+        <div class="id-value" id="qrId">-</div>
+      </div>
+      <div class="buttons">
+        <button id="downloadQrBtn" type="button">⬇️ Download QR</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" id="my-records">
+    <h2>My Information</h2>
+    <p>Your records are stored separately. Your own dashboard is designed to become the place where you manage your information.</p>
+    <div class="record-grid">
+      <div class="record-card"><h3>🩺 Medical</h3><div id="medicalRecord" class="record-status">Loading...</div></div>
+      <div class="record-card"><h3>🎓 Academic</h3><div id="academicRecord" class="record-status">Loading...</div></div>
+      <div class="record-card"><h3>👮 Criminal</h3><div id="criminalRecord" class="record-status">Loading...</div></div>
+      <div class="record-card"><h3>🆘 Emergency</h3><div id="civilianRecord" class="record-status">Loading...</div><small style="display:block;margin-top:8px;color:#64748b">Owner-controlled responder visibility</small></div>
+    </div>
+    <div class="message">Privacy note: scanners do not receive this complete view. Their access remains profession-specific.</div>
+  </section>
+
+  <section class="card" id="access-history">
+    <h2>🔐 Access History</h2>
+    <p>See which authorised professional accessed your protected LifeLinkQR information.</p>
+    <div id="accessHistory" class="access-history">
+      <p class="record-status">Loading access history...</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

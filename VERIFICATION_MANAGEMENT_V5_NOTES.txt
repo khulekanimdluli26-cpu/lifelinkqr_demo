@@ -1,0 +1,13 @@
+LifeLinkQR Verification Management V5
+
+Added:
+- Admin Verification Management page.
+- Search by name/email/role/profile ID.
+- Filter by verification status and role.
+- View professional details in a popup.
+- Approve/reject controls.
+- Approval sets verificationStatus=approved and accountStatus=active.
+- Rejection sets verificationStatus=rejected and accountStatus=pending.
+
+Security note:
+The page checks admins/{uid} before loading users. Firestore rules must continue to restrict writes to administrators.

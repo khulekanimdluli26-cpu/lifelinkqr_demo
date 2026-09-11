@@ -1,0 +1,22 @@
+LifeLinkQR Access History Fixed V2
+
+Cause:
+The previous owner page used a collectionGroup query with:
+where("ownerUid", "==", user.uid)
+orderBy("accessedAt", "desc")
+
+Existing accessLogs are stored under:
+profiles/{profileId}/accessLogs/{logId}
+
+and use scannedAt, not accessedAt. They also do not require ownerUid because
+the parent profile ID identifies the owner.
+
+Fix:
+The owner portal now:
+1. Reads users/{signed-in-uid} to obtain profileId.
+2. Reads only profiles/{profileId}/accessLogs.
+3. Sorts records in the browser.
+4. Uses scannedAt for the displayed time.
+5. Requires no Firestore composite index.
+
+No Firestore rule changes are required.

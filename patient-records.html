@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeLinkQR | My Information</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.owner-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.owner-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px}.owner-card h2{margin-top:0}.owner-card small{color:#64748b}.owner-card label{display:block;margin:12px 0 6px;font-weight:700}.owner-card input,.owner-card textarea{width:100%;box-sizing:border-box;border:1px solid #d7e0eb;border-radius:9px;padding:11px;font:inherit}.owner-card textarea{min-height:80px;resize:vertical}.owner-card button{margin-top:14px}.owner-msg{margin-top:10px;padding:10px;border-radius:9px;background:#f8fafc;color:#64748b;font-size:13px}.owner-msg.ok{background:#effaf3;color:#166534}.owner-msg.err{background:#fff7ed;color:#9a5b00}.locked{border-left:4px solid #94a3b8}
+@media(max-width:800px){.owner-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div><h1>LifeLinkQR</h1><p>Patient Owner Portal</p></div><nav><a href="dashboard.html">Dashboard</a><a href="scanner.html">Scanner</a></nav></header>
+<main>
+<section class="card" id="ownerPortalStatus">
+  <strong>🔐 Patient Owner Portal</strong>
+  <p>You control your own owner-managed information. Protected authority records remain role-restricted.</p>
+</section>
+
+<section class="card"><h2>Manage My Information</h2><p>You are the owner of this LifeLinkQR profile. You can manage your personal, medical and academic information. Criminal-history records remain controlled by authorised authorities.</p><div class="id-box"><div>LifeLinkQR ID</div><div class="id-value" id="profileId">Loading...</div></div></section>
+<div class="owner-grid">
+<section class="owner-card"><h2>🆘 Emergency / Civilian</h2><small>Information available to authorised emergency/civilian access.</small><form id="civilianForm"><label>Emergency Contact</label><input id="emergencyContact"><label>Relationship</label><input id="emergencyRelationship" placeholder="e.g. Mother, Father, Spouse"><label>Emergency Phone</label><input id="emergencyPhone" type="tel"><label>Blood Type</label><input id="emergencyBloodType" placeholder="e.g. O+, A-, Unknown"><label>Known Allergies</label><input id="emergencyAllergies" placeholder="e.g. Penicillin, None known"><label>Residential Area</label><input id="residentialArea"><label>Additional Notes</label><textarea id="emergencyNotes"></textarea><label style="display:flex;align-items:center;gap:8px;margin-top:14px"><input id="showEmergency" type="checkbox" style="width:auto"> Show selected information to Emergency Responders</label><button type="submit">Save Emergency Information</button><div id="civilianMessage" class="owner-msg">Loading...</div></form></section>
+<section class="owner-card"><h2>🩺 Medical</h2><small>Information available to approved medical professionals.</small><form id="medicalForm"><label>Blood Type</label><input id="medicalBloodType"><label>Allergies</label><input id="medicalAllergies"><label>Medical Conditions</label><input id="medicalConditions"><label>Medications</label><input id="medications"><label>Emergency Medical Notes</label><textarea id="emergencyMedicalNotes"></textarea><button type="submit">Save Medical Information</button><div id="medicalMessage" class="owner-msg">Loading...</div></form></section>
+<section class="owner-card"><h2>🎓 Academic</h2><small>Information available to approved educators.</small><form id="academicForm"><label>School</label><input id="school"><label>Grade</label><input id="grade"><label>Mathematics</label><input id="mathematics"><label>Physical Sciences</label><input id="physicalSciences"><label>Academic Notes</label><textarea id="academicNotes"></textarea><button type="submit">Save Academic Information</button><div id="academicMessage" class="owner-msg">Loading...</div></form></section>
+<section class="owner-card locked"><h2>👮 Criminal History</h2><small>Protected authority-managed record.</small><p>For security, the patient cannot edit this section. Authorised police officers and administrators manage/access it according to their permissions.</p><div class="owner-msg">🔒 Patient editing disabled</div></section>
+</div>
+</main>
+<footer>LifeLinkQR • Patient Owner Portal • Fictional demonstration data</footer>
+<script type="module" src="js/patient-owner-records.js"></script>
+</body></html>

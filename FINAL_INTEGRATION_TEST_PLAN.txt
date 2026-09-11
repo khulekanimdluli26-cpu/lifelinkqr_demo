@@ -1,0 +1,21 @@
+LifeLinkQR Final Integration Test
+
+1. Register a professional.
+2. Confirm users/{uid} is pending.
+3. Admin approves the professional.
+4. Professional logs in.
+5. Professional scans an active patient QR.
+6. Confirm only the role-authorised category is displayed.
+7. Confirm an accessLogs record is created with ownerUid.
+8. Patient owner opens owner-access-history.html.
+9. Confirm the access event appears with a readable date/time.
+10. Admin opens audit-dashboard.html.
+11. Confirm the same event appears in the administrator audit view.
+12. Suspend the professional.
+13. Confirm scanner access is blocked.
+14. Reactivate the professional.
+15. Confirm authorised scanning works again.
+
+IMPORTANT:
+The owner history query expects accessLogs records to contain ownerUid.
+If your existing scanner currently writes a different owner field (for example uid or profileUid), update that field in the scanner's log creation so ownerUid equals the QR owner's Firebase Auth UID.

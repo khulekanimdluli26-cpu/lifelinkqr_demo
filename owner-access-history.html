@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeLinkQR | My Access History</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.wrap{max-width:1050px;margin:auto;padding:25px 18px}.hero,.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(15,23,42,.05)}.hero{display:flex;justify-content:space-between;gap:18px;align-items:center}.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:800}h1{margin:4px 0 7px}.muted{color:#64748b}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:18px 0}.stat{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:17px}.num{font-size:27px;font-weight:800;margin-top:6px}.event{border:1px solid #e5e7eb;border-radius:13px;padding:15px;margin-top:11px}.row{display:flex;justify-content:space-between;gap:12px}.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.ok{background:#ecfdf3;color:#166534}.denied{background:#fef2f2;color:#991b1b}.notice{padding:12px;border-radius:10px;background:#f8fafc;color:#64748b;margin-top:12px}@media(max-width:700px){.summary{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}.row{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div><h1>LifeLinkQR</h1><p>Owner Portal</p></div><nav><a href="dashboard.html">Dashboard</a><a href="scanner.html">Scanner</a></nav></header>
+<main class="wrap">
+<section class="hero"><div><div class="kicker">Privacy & security</div><h1>My Access History</h1><div class="muted">See when your LifeLinkQR information was accessed and by which authorised professional.</div></div><span class="badge ok">🔐 Owner only</span></section>
+<section class="summary">
+<div class="stat"><div class="muted">Total accesses</div><div class="num" id="total">—</div></div>
+<div class="stat"><div class="muted">Authorised</div><div class="num" id="allowed">—</div></div>
+<div class="stat"><div class="muted">Denied</div><div class="num" id="denied">—</div></div>
+</section>
+<section class="card"><h2>Access History</h2>
+<div class="filters" style="display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:10px;margin:15px 0">
+<input id="search" placeholder="Search professional or category" style="padding:11px;border:1px solid #d1d5db;border-radius:10px">
+<select id="role" style="padding:11px;border:1px solid #d1d5db;border-radius:10px"><option value="">All roles</option><option value="doctor">Doctor</option><option value="police">Police</option><option value="educator">Educator</option><option value="civilian">Emergency Responder</option></select>
+<select id="category" style="padding:11px;border:1px solid #d1d5db;border-radius:10px"><option value="">All categories</option><option value="medical">Medical</option><option value="criminal">Criminal</option><option value="academic">Academic</option><option value="emergency">Emergency</option></select>
+<button id="clear" style="padding:11px 15px;border:0;border-radius:10px;cursor:pointer">Clear</button>
+</div>
+<div id="notice" class="notice">Loading your history...</div><div id="events"></div></section>
+</main>
+<footer>LifeLinkQR • Owner Access History</footer>
+<script type="module" src="js/owner-access-history.js?v=2"></script>
+</body></html>

@@ -1,0 +1,14 @@
+LifeLinkQR Access History finalisation
+
+- Patient dashboard displays audit timestamps as readable South African dates/times.
+- Administrator activity uses the same readable timestamp format.
+- Raw Firestore timestamp objects are not intentionally rendered by the dashboard/admin views.
+- Audit records remain under profiles/{profileId}/accessLogs.
+- Patient owners can read their own access history; approved scanners can create authorised logs; admins can manage logs according to Firestore rules.
+
+Test:
+1. Scan the same QR with Doctor, Educator, Police and Emergency roles.
+2. Return to the patient dashboard.
+3. Confirm four access-history entries appear with professional, category, result and readable date/time.
+4. Open Admin and confirm the same activity appears there.
+5. If a raw timestamp object appears anywhere, identify the exact screen/field so its renderer can be patched.

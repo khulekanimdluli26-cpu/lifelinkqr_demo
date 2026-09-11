@@ -1,0 +1,13 @@
+LifeLinkQR Admin Security & Audit V4
+
+Added to the existing working admin centre:
+- Active QR count
+- Deactivated QR count
+- Denied event count
+- Security Monitor section
+- Current deactivated QR alerts
+- Recent denied access alerts
+- Refresh control
+
+No new Firestore collection is required. It reads existing users and accessLogs data.
+Existing admin-only Firestore rules are used.

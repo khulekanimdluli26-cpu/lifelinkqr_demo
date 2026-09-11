@@ -1,0 +1,18 @@
+LifeLinkQR V8.1 — Skill Verification
+
+Added:
+- admin-skills.html
+- js/admin-skills.js
+- Admin can filter/search professional skills.
+- Admin can verify or reject a skill and save an optional admin note.
+- Skill status values: pending, verified, rejected.
+- Professional Trust Profile now correctly treats qualification status "verified" as verified.
+- Admin Control Centre now links to Skill Verification.
+
+Firestore path:
+users/{userId}/skills/{skillId}
+
+No Firebase Storage is used.
+
+Deploy only Firestore rules while Storage billing/setup is unavailable:
+"%APPDATA%\\npm\\firebase.cmd" deploy --only firestore:rules

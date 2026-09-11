@@ -1,0 +1,22 @@
+LifeLinkQR Administrator Control Centre V1
+
+Added:
+- Dedicated administrator control centre.
+- Administrator identity checked against admins/{uid}.
+- Professional account list.
+- Filters: all, pending, approved, rejected, suspended.
+- Approve, reject, suspend and reactivate controls.
+- Summary counts.
+- No Firestore security rules were weakened.
+
+IMPORTANT:
+The existing Firestore rule currently allows admin users to update users/{uid}. If an account is suspended through this portal, scanner access is blocked by the scannerIsApproved() rule because accountStatus is no longer active.
+
+Test:
+1. Sign in with the configured admin account.
+2. Open admin-control-centre.html.
+3. Approve a pending professional.
+4. Confirm the professional can scan.
+5. Suspend the same professional.
+6. Confirm scanning is blocked.
+7. Reactivate and confirm scanning works again.

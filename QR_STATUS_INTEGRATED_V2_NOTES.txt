@@ -1,0 +1,28 @@
+LifeLinkQR QR Status Integrated V2
+
+This build integrates QR deactivation into the existing working scanner.
+
+Owner:
+- users/{uid}.qrStatus = "active" or "deactivated"
+- Owner changes the value from qr-status.html.
+
+Scanner:
+- Reads profiles/{profileId}
+- Reads the profile owner's users/{uid}
+- If qrStatus == "deactivated", no protected record is read/displayed.
+
+Firestore:
+- activeProfile(profileId) now requires both:
+  profiles/{profileId}.accountStatus == "active"
+  and owner users/{uid}.qrStatus != "deactivated"
+
+IMPORTANT:
+Deploy firestore.rules with Firebase CLI before testing server-side enforcement.
+
+Test:
+1. Owner dashboard -> QR Security -> Deactivate QR.
+2. Scanner scans the owner's QR.
+3. Expected: Profile Deactivated; no information shown.
+4. Owner -> Reactivate QR.
+5. Scan again.
+6. Expected: normal role-specific access.

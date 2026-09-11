@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeLinkQR — Verification Management</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.wrap{max-width:1100px;margin:30px auto;padding:0 18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+input,select{padding:11px;border:1px solid #ccc;border-radius:8px}.table{width:100%;border-collapse:collapse;background:#fff}
+.table th,.table td{padding:12px;border-bottom:1px solid #eee;text-align:left}.badge{padding:4px 8px;border-radius:999px;font-size:12px}
+.pending{background:#fff3cd}.approved{background:#d1e7dd}.rejected{background:#f8d7da}
+button{cursor:pointer;padding:9px 13px;border:0;border-radius:8px}.approve{background:#198754;color:#fff}.reject{background:#dc3545;color:#fff}
+button:disabled{opacity:.6;cursor:not-allowed}.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}
+.card{background:#fff;max-width:650px;width:100%;border-radius:14px;padding:24px;max-height:90vh;overflow:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.item{background:#f7f7f7;padding:12px;border-radius:8px}
+.error{color:#b02a37;background:#f8d7da;padding:12px;border-radius:8px;margin:12px 0}.success{color:#146c43;background:#d1e7dd;padding:12px;border-radius:8px;margin:12px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🛡️ Verification Management</h1>
+<p>Review professional accounts and manage their verification status.</p>
+<div class="toolbar">
+<input id="search" placeholder="Search name, email, role or ID">
+<select id="status"><option value="all">All statuses</option><option value="pending">pending</option><option value="approved">approved</option><option value="rejected">rejected</option></select>
+<select id="role"><option value="all">All roles</option><option value="doctor">doctor</option><option value="police">police</option><option value="educator">educator</option><option value="civilian">civilian</option></select>
+<button id="refresh">Refresh</button>
+</div>
+<div id="msg">Checking administrator access...</div>
+<div style="overflow:auto"><table class="table"><thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Account</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+<div class="modal" id="modal"><div class="card">
+<h2>Professional Verification</h2><div id="details"></div>
+<div style="display:flex;gap:10px;margin-top:18px"><button class="approve" id="approve">Approve</button><button class="reject" id="reject">Reject</button><button id="close">Close</button></div>
+</div></div>
+<script type="module">
+import {auth,db} from "./js/firebase.js";
+import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {collection,getDocs,doc,getDoc,writeBatch,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const $=id=>document.getElementById(id);
+let users=[];
+let selected=null;
+let authReady=false;
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function setMessage(text,type=""){
+  $("msg").className=type;
+  $("msg").textContent=text;
+}
+
+async function load(){
+  if(!auth.currentUser){
+    setMessage("You must be signed in as an administrator.","error");
+    return;
+  }
+  setMessage("Loading professional accounts...");
+  $("rows").innerHTML="";
+  try{
+    const adminSnap=await getDoc(doc(db,"admins",auth.currentUser.uid));
+    if(!adminSnap.exists()){
+      setMessage("Access denied: this account is not registered as an administrator.","error");
+      return;
+    }
+
+    const snapshot=await getDocs(collection(db,"users"));
+    users=snapshot.docs
+      .map(d=>({id:d.id,...d.data()}))
+      .filter(x=>["doctor","police","educator","civilian"].includes(x.role));
+
+    render();
+  }catch(e){
+    console.error("Verification Management load failed:",e);
+    setMessage(`Unable to load professional accounts: ${e.message||e}`,"error");
+  }
+}
+
+function render(){
+  const q=$("search").value.trim().toLowerCase();
+  const st=$("status").value;
+  const role=$("role").value;
+
+  const list=users.filter(x=>
+    (st==="all"||String(x.verificationStatus||"pending").toLowerCase()===st)&&
+    (role==="all"||String(x.role||"").toLowerCase()===role)&&
+    [x.name,x.email,x.role,x.profileId,x.id].filter(Boolean).join(" ").toLowerCase().includes(q)
+  );
+
+  $("rows").innerHTML=list.map(x=>`<tr>
+    <td>${esc(x.name||"Not provided")}<br><small>${esc(x.email||"")}</small></td>
+    <td>${esc(x.role||"—")}</td>
+    <td><span class="badge ${esc(x.verificationStatus||"pending")}">${esc(x.verificationStatus||"pending")}</span></td>
+    <td>${esc(x.accountStatus||"—")}</td>
+    <td><button data-id="${esc(x.id)}">View</button></td>
+  </tr>`).join("");
+
+  setMessage(list.length?`${list.length} professional account(s)`:"No matching professional accounts.",list.length?"success":"");
+  document.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>openProfessional(b.dataset.id)));
+}
+
+function openProfessional(id){
+  selected=users.find(x=>x.id===id);
+  if(!selected)return;
+  $("details").innerHTML=`<div class="grid">
+    ${["name","email","role","profileId","accountStatus","verificationStatus","qrStatus"].map(k=>`<div class="item"><b>${esc(k)}</b><br>${esc(selected[k]||"Not provided")}</div>`).join("")}
+  </div>`;
+  $("approve").disabled=false;
+  $("reject").disabled=false;
+  $("modal").classList.add("show");
+}
+
+async function setStatus(status){
+  if(!selected)return;
+  const approved=status==="approved";
+  if(!confirm(`${approved?"Approve":"Reject"} this professional account?`))return;
+
+  const approveBtn=$("approve"), rejectBtn=$("reject");
+  approveBtn.disabled=true;
+  rejectBtn.disabled=true;
+
+  try{
+    const userRef=doc(db,"users",selected.id);
+    const userSnap=await getDoc(userRef);
+    if(!userSnap.exists())throw new Error("User account no longer exists.");
+
+    const profileId=userSnap.data().profileId;
+    const batch=writeBatch(db);
+    batch.update(userRef,{
+      verificationStatus:approved?"approved":"rejected",
+      accountStatus:approved?"active":"rejected",
+      qrStatus:approved?"active":"deactivated",
+      verifiedAt:serverTimestamp(),
+      qrStatusUpdatedAt:serverTimestamp()
+    });
+
+    if(profileId){
+      const profileRef=doc(db,"profiles",profileId);
+      const profileSnap=await getDoc(profileRef);
+      if(profileSnap.exists()){
+        batch.update(profileRef,{
+          accountStatus:approved?"active":"rejected",
+          qrStatus:approved?"active":"deactivated",
+          qrStatusUpdatedAt:serverTimestamp()
+        });
+      }
+    }
+
+    await batch.commit();
+    $("modal").classList.remove("show");
+    selected=null;
+    await load();
+  }catch(e){
+    console.error("Verification update failed:",e);
+    alert("Could not update verification: "+(e.message||e));
+    approveBtn.disabled=false;
+    rejectBtn.disabled=false;
+  }
+}
+
+$("search").addEventListener("input",render);
+$("status").addEventListener("change",render);
+$("role").addEventListener("change",render);
+$("refresh").addEventListener("click",load);
+$("approve").addEventListener("click",()=>setStatus("approved"));
+$("reject").addEventListener("click",()=>setStatus("rejected"));
+$("close").addEventListener("click",()=>$("modal").classList.remove("show"));
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").classList.remove("show")});
+
+onAuthStateChanged(auth,async user=>{
+  authReady=true;
+  if(!user){
+    setMessage("You are not signed in. Redirecting to login...","error");
+    setTimeout(()=>location.href="login.html",700);
+    return;
+  }
+  await load();
+});
+</script>
+</body>
+</html>

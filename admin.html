@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeLinkQR | Admin Control Centre</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div>
+    <div>
+      <h1>LifeLinkQR</h1>
+      <p>Administrator Control Centre</p>
+    </div>
+  </div>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="scanner.html">Scanner</a>
+    <a href="audit-dashboard.html">Audit Monitoring</a>
+    <a href="login.html">Logout</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <h2>System Control Centre.</h2>
+  <p>Monitor professional verification, scanner activity and authorised access from one secure administrator view.</p>
+</section>
+
+<section class="card">
+  <p id="adminMessage">Checking administrator access...</p>
+</section>
+
+
+<section id="adminQuickActions" class="card admin-quick-actions">
+  <div class="section-heading">
+    <div><h2>⚡ Administration</h2><p>Quick access to the main verification and security controls.</p></div>
+  </div>
+  <div class="admin-action-grid">
+    <a href="verification-management.html" class="action-card"><span class="quick-icon">🛡️</span><strong>Verification Management</strong><small>Approve or reject professional accounts</small></a>
+    <a href="admin-qualifications.html" class="action-card"><span class="quick-icon">📄</span><strong>Qualification Review</strong><small>Review submitted qualifications</small></a>
+    <a href="admin-skills.html" class="action-card"><span class="quick-icon">🛠️</span><strong>Skill Verification</strong><small>Verify professional skills</small></a>
+    <a href="audit-dashboard.html" class="action-card"><span class="quick-icon">🔐</span><strong>Access Logs</strong><small>Monitor authorised access activity</small></a>
+  </div>
+</section>
+
+<section id="statsSection" class="stats-grid" style="display:none">
+  <div class="stat-card"><span>👥</span><strong id="totalProfessionals">—</strong><small>Professionals</small></div>
+  <div class="stat-card"><span>✅</span><strong id="approvedProfessionals">—</strong><small>Approved</small></div>
+  <div class="stat-card"><span>⏳</span><strong id="pendingProfessionals">—</strong><small>Pending</small></div>
+  <div class="stat-card"><span>📷</span><strong id="totalScans">—</strong><small>Authorised Scans</small></div>
+  <div class="stat-card"><span>🟢</span><strong id="activeQRs">—</strong><small>Active QRs</small></div>
+  <div class="stat-card"><span>🔴</span><strong id="deactivatedQRs">—</strong><small>Deactivated QRs</small></div>
+  <div class="stat-card"><span>⛔</span><strong id="deniedEvents">—</strong><small>Denied Events</small></div>
+</section>
+
+<section id="pendingSection" class="card" style="display:none">
+  <div class="section-heading">
+    <div><h2>👥 Professional Verification</h2><p>Approve or reject scanner accounts.</p></div>
+    <button id="refreshPending">↻ Refresh</button>
+  </div>
+  <div id="pendingList">Loading...</div>
+</section>
+
+<section id="securitySection" class="card" style="display:none">
+  <div class="section-heading">
+    <div><h2>🛡️ Security Monitor</h2><p>System-wide QR status and recent security events.</p></div>
+    <button id="refreshSecurity">↻ Refresh</button>
+  </div>
+  <div id="securityList">Loading...</div>
+</section>
+
+<section id="activitySection" class="card" style="display:none">
+  <div class="section-heading">
+    <div><h2>🔐 Recent Access Activity</h2><p>Authorised scanner activity across the system.</p></div>
+    <button id="refreshActivity">↻ Refresh</button>
+  </div>
+  <div id="activityList">Loading...</div>
+</section>
+
+<section id="demoSection" class="card" style="display:none">
+  <h2>🧪 Demo Patient</h2>
+  <p>Use the same fictional QR identity to demonstrate role-based access.</p>
+  <div class="id-box">
+    <div>Demo LifeLinkQR ID</div>
+    <div class="id-value">LLQ-DEMO2026</div>
+  </div>
+  <p id="demoMessage"></p>
+  <button id="createDemoBtn">Create / Reset Demo Patient</button>
+</section>
+</main>
+
+<footer>LifeLinkQR • Administrator Control Centre • Fictional demonstration data</footer>
+<script type="module" src="js/admin.js?v=4"></script>
+<script type="module" src="js/demo-data.js"></script>
+</body>
+</html>

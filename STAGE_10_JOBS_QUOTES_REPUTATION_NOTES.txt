@@ -1,0 +1,24 @@
+LifeLinkQR Stage 10 — Jobs, Quotes, Bookings & Reputation
+
+Implemented:
+- Professional jobs dashboard for incoming customer requests
+- Professional can submit quote amount and quote note
+- Professional can update request status: requested, quoted, accepted, in_progress, completed, cancelled
+- Customer can see updated status and review a completed job
+- Customer review page with 1–5 star rating and written review
+- Review security requires the reviewer to own the completed service request
+- Duplicate review prevention in the UI
+- professionalName captured when a customer creates a request
+- No Firebase Storage required
+- Firestore rules expanded for Stage 10
+
+Test:
+1. Customer submits a service request.
+2. Professional opens professional-jobs.html.
+3. Professional enters quote and selects quoted.
+4. Customer refreshes My Service Requests and sees quoted.
+5. Professional can move job through accepted -> in_progress -> completed.
+6. Customer opens Review Professional and submits rating/review.
+
+Deploy only Firestore rules:
+"%APPDATA%\\npm\\firebase.cmd" deploy --only firestore:rules

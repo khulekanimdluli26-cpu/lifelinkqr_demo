@@ -1,0 +1,7 @@
+LifeLinkQR Emergency Access V1
+
+The owner can enable/disable emergency responder visibility from patient-records.html.
+The civilian/emergency scanner only receives the explicitly allowed emergency fields
+when showEmergency === true. Medical, academic and criminal records remain role restricted.
+No Firestore rule change is required for this feature because civilianRecords is already
+readable by an approved civilian scanner and by the owner/admin.
