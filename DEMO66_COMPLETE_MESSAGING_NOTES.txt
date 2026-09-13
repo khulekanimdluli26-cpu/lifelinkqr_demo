@@ -1,0 +1,37 @@
+LifeLinkQR Demo66 — Complete Messaging Flow
+==========================================
+
+What changed from Demo65
+------------------------
+1. One deterministic conversation per service request:
+   conversations/{serviceRequestId}
+
+2. Either participant can start the conversation:
+   - customer opens "Message Professional"
+   - professional opens "Message Customer"
+   The first person to open the page creates the conversation automatically.
+
+3. Inbox query remains permission-safe:
+   where('participantUids', 'array-contains', currentUser.uid)
+
+4. Unread tracking added:
+   - unreadFor contains only the participant who has not yet opened the newest message.
+   - inbox displays a NEW badge.
+   - opening the conversation clears the current user's unread marker.
+
+5. Message send uses a Firestore writeBatch:
+   - writes the message
+   - updates lastMessage / lastSenderUid / unreadFor / timestamps
+
+6. Firestore rules validate participant membership and prevent participant identity fields from being changed.
+
+7. Message text remains limited to 2,000 characters.
+
+Deployment
+----------
+From the project folder in Windows CMD:
+
+"%APPDATA%\\npm\\firebase.cmd" use lifelink-e3131
+"%APPDATA%\\npm\\firebase.cmd" deploy --only firestore:rules
+
+If this folder is also your Firebase Hosting source, deploy hosting separately only when you intend to publish the updated HTML/JS.

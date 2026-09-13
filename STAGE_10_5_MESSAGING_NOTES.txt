@@ -1,0 +1,22 @@
+LIFELINKQR DEMO64 — CUSTOMER ↔ PROFESSIONAL MESSAGING
+
+Implemented:
+- conversations/{conversationId} linked to a service request
+- private customer/professional participant access
+- conversations/{conversationId}/messages subcollection
+- real-time message display with timestamps
+- customer can start a conversation from a service request
+- professional can open the same conversation
+- Messages inbox page
+- Links added to customer/professional dashboards and request/job pages
+- Firestore rules enforce participant-only access
+- Message senderUid must equal the authenticated user
+- Message text limited to 2,000 characters
+- Messages cannot be edited or deleted by clients
+- Storage is NOT enabled or deployed
+
+Workflow:
+Find → Request → Quote → Chat → Accept → Work → Complete → Review
+
+NOTE:
+This is a prototype messaging layer. Attachments, unread counters, notifications and production moderation/rate limiting can be added later.

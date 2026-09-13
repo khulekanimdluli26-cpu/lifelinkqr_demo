@@ -1,0 +1,23 @@
+LifeLinkQR Demo65 — Messaging Security Fix
+
+Problem fixed:
+Demo64 loaded the inbox using two separate queries on customerUid and professionalUid. The Firestore rule evaluated access from participant fields, which could produce Missing or insufficient permissions during collection queries.
+
+Demo65 changes:
+1. Every conversation uses the service request ID as its conversation document ID.
+2. Every conversation stores participantUids: [customerUid, professionalUid].
+3. Inbox uses one array-contains query on participantUids.
+4. Firestore conversation read permission uses the same participantUids field.
+5. Conversation page gets the conversation directly by request ID instead of querying conversations by requestId.
+6. Existing deterministic conversations are backfilled with participantUids when opened.
+7. Message reads/writes remain limited to conversation participants.
+8. Message text remains limited to 2,000 characters.
+9. Conversation identity fields cannot be changed by participants.
+10. No Firebase Storage or Blaze billing is required.
+
+Deployment:
+From CMD in this project folder:
+"%APPDATA%\npm\firebase.cmd" use lifelink-e3131
+"%APPDATA%\npm\firebase.cmd" deploy --only firestore:rules
+
+Then sign out/in and test Messages again.

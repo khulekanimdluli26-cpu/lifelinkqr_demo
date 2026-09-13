@@ -1,0 +1,10 @@
+LifeLinkQR Demo68 - Self-Healing Messaging
+
+Changes:
+1. Messages page now loads service requests for the signed-in user first.
+2. Any service request missing a conversations/{requestId} document is repaired automatically.
+3. Both customer and professional service requests are supported.
+4. Clear diagnostic text is shown when Firestore rules block chat creation.
+5. Successful new service requests redirect directly into the private chat.
+6. Existing Message Professional / Message Customer buttons remain available.
+7. No Firebase Storage or Blaze billing is required.

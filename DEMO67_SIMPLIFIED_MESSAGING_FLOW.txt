@@ -1,0 +1,17 @@
+LIFELINKQR DEMO67 — SIMPLIFIED MESSAGING FLOW
+
+NEW FLOW
+1. Customer finds a professional.
+2. Customer sends a service request.
+3. LifeLinkQR automatically creates conversations/{serviceRequestId}.
+4. Success screen shows “Open Chat Now”.
+5. Customer can send the first message immediately.
+6. Professional opens Professional Jobs or Messages and sees the same conversation.
+7. Replies use the same conversation document.
+
+IMPORTANT
+Deploy firestore.rules before testing:
+"%APPDATA%\npm\firebase.cmd" use lifelink-e3131
+"%APPDATA%\npm\firebase.cmd" deploy --only firestore:rules
+
+For an old service request created before Demo67, open My Service Requests and click Message Professional. The conversation page will create the missing conversation if allowed.

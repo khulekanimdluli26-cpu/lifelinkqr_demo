@@ -1,0 +1,9 @@
+LifeLinkQR Demo69 — Request Quote / Service Fix
+
+Fixes:
+1. professional-view.js now passes the Firestore professionalDirectory document ID to request-service.html instead of relying on p.uid.
+2. request-service.js no longer silently redirects non-customer accounts. It displays a clear explanation and customer/login links.
+3. Missing professional query parameter now shows a clear marketplace return action.
+
+Test:
+Customer -> Find Professionals -> View Professional -> Request Quote / Service.
