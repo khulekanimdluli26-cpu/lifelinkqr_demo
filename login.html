@@ -1,135 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>LifeLinkQR - Login</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-</head>
-
-
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LifeLinkQR — Secure Login</title><link rel="stylesheet" href="style.css"></head>
 <body>
-
-<header>
-
-    <div>
-
-        <h1>LifeLinkQR</h1>
-
-        <p>
-            Secure profession-based information access
-        </p>
-
-    </div>
-
-
-    <nav>
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <a href="register.html">
-            Register
-        </a>
-
-    </nav>
-
-</header>
-
-
+<header><div><h1>LifeLinkQR</h1><p>Secure profession-based information access</p></div><nav><a href="index.html">Home</a><a href="register.html">Register</a></nav></header>
 <main>
-
-    <section class="card">
-
-        <h2>
-            Login to LifeLinkQR
-        </h2>
-
-        <p>
-            Enter your account details to continue.
-        </p>
-
-
-        <form id="loginForm">
-
-
-            <label>
-                Email
-            </label>
-
-            <input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                required
-            >
-
-
-            <br><br>
-
-
-            <label>
-                Password
-            </label>
-
-            <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                required
-            >
-
-
-            <br><br>
-
-
-            <button type="submit">
-
-                Login
-
-            </button>
-
-
-        </form>
-
-
-        <p id="message"></p>
-
-
-        <p>
-
-            Don't have an account?
-
-            <a href="register.html">
-                Create one
-            </a>
-
-        </p>
-
+  <div class="ll-login-shell">
+    <section class="ll-login-aside">
+      <span class="ll-kicker">Welcome back</span>
+      <h2>Access starts with identity.</h2>
+      <p>Sign in to continue to the LifeLinkQR experience matched to your account.</p>
+      <div class="ll-login-list"><div>🔐 Protected access is tied to your authenticated account.</div><div>🛡️ Professional privileges depend on approval and role.</div><div>⚡ Owners can control QR status and review access history.</div></div>
     </section>
-
+    <section class="card ll-form-card">
+      <span class="ll-kicker">Secure sign in</span><h2>Continue to LifeLinkQR</h2><p>Enter your account details to continue.</p>
+      <form id="loginForm"><label for="email">Email address</label><input id="email" type="email" placeholder="name@example.com" autocomplete="email" required><label for="password">Password</label><input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button type="submit">Login securely</button></form>
+      <p id="message" class="message"></p><p class="text-muted">Don't have an account? <a href="register.html">Create one</a></p>
+    </section>
+  </div>
 </main>
-
-
-<script
-    type="module"
-    src="js/login.js">
-</script>
-
-</body>
-
-</html>
-
+<script type="module" src="js/login.js"></script><script src="js/ui.js"></script>
+</body></html>

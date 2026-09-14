@@ -1,125 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>LifeLinkQR</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LifeLinkQR — one secure identity with role-based information access and trusted professional services.">
+  <title>LifeLinkQR — One Identity. Controlled Access.</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header>
-
-    <div>
-        <h1>LifeLinkQR</h1>
-        <p>Secure profession-based information access</p>
-    </div>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="register.html">Register</a>
-        <a href="login.html">Login</a>
-    </nav>
-
+  <div><h1>LifeLinkQR</h1><p>One identity. Controlled access.</p></div>
+  <nav><a href="index.html">Home</a><a href="find-professionals.html">Marketplace</a><a href="register.html">Register</a><a href="login.html">Login</a></nav>
 </header>
-
-
 <main>
+  <section class="hero">
+    <h2>Your identity should reveal only what is needed.</h2>
+    <p>LifeLinkQR connects one secure QR identity to intelligent role-based access. The person stays in control while verified professionals see only the information their role permits.</p>
+    <div class="buttons"><a href="register.html">Create LifeLinkQR</a><a href="login.html">Sign in securely</a></div>
+  </section>
 
-    <section class="hero">
+  <section class="card">
+    <span class="ll-kicker">Access by purpose</span>
+    <div class="ll-page-title"><div><h2>One QR. Four different authorised views.</h2><p>The QR identifies the person. Authentication, verification and database rules determine what each scanner may access.</p></div></div>
+    <div class="roles" style="margin-top:22px">
+      <div><div class="icon">🩺</div><h3>Doctor</h3><p>Receives the medical information required for care.</p></div>
+      <div><div class="icon">👮</div><h3>Police Officer</h3><p>Receives only authorised criminal-record information.</p></div>
+      <div><div class="icon">🎓</div><h3>Educator</h3><p>Receives the academic information relevant to education.</p></div>
+      <div><div class="icon">🚨</div><h3>Emergency Access</h3><p>Receives owner-approved emergency information only.</p></div>
+    </div>
+  </section>
 
-        <h2>
-            One QR. The right information.
-        </h2>
+  <section class="card">
+    <span class="ll-kicker">Simple by design</span>
+    <h2>From identity to authorised information in five steps.</h2>
+    <div class="ll-step-grid" style="margin-top:22px">
+      <div class="ll-step"><strong>Create identity</strong><span>Register and receive a unique LifeLinkQR profile.</span></div>
+      <div class="ll-step"><strong>Control status</strong><span>The owner can keep the QR active or deactivate it.</span></div>
+      <div class="ll-step"><strong>Authenticate</strong><span>The professional signs in using their own verified account.</span></div>
+      <div class="ll-step"><strong>Scan once</strong><span>The same QR is scanned regardless of professional role.</span></div>
+      <div class="ll-step"><strong>Release minimum data</strong><span>Only the role-authorised category is returned.</span></div>
+    </div>
+  </section>
 
-        <p>
-            LifeLinkQR allows authorised professionals
-            to access information relevant to their role.
-        </p>
+  <section class="card ll-trust-banner">
+    <div><span class="ll-kicker">Trust architecture</span><h2>Privacy is part of the product, not a hidden setting.</h2><p>LifeLinkQR separates identity from protected records and keeps access profession-specific. The QR itself is only the bridge to the secured profile.</p><div class="buttons" style="justify-content:flex-start"><a href="scanner.html">Open secure scanner</a><a href="qr-status.html" class="secondary-btn">QR controls</a></div></div>
+    <div class="ll-trust-points"><div class="ll-trust-point"><b>01</b> Authenticated scanner accounts</div><div class="ll-trust-point"><b>02</b> Professional verification before privileged access</div><div class="ll-trust-point"><b>03</b> Database-level role enforcement</div><div class="ll-trust-point"><b>04</b> Owner-controlled QR status and access logs</div></div>
+  </section>
 
-        <div class="buttons">
-
-            <a href="register.html">
-                Create Account
-            </a>
-
-            <a href="login.html">
-                Login
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <section class="card">
-
-        <h2>Profession-Based Access</h2>
-
-        <div class="roles">
-
-            <div>
-                <div class="icon">🩺</div>
-                <h3>Doctor</h3>
-                <p>Medical information</p>
-            </div>
-
-            <div>
-                <div class="icon">👮</div>
-                <h3>Police Officer</h3>
-                <p>Criminal information</p>
-            </div>
-
-            <div>
-                <div class="icon">🎓</div>
-                <h3>Educator</h3>
-                <p>Academic information</p>
-            </div>
-
-            <div>
-                <div class="icon">👤</div>
-                <h3>Civilian</h3>
-                <p>Approved emergency information</p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <section class="card">
-
-        <h2>How It Works</h2>
-
-        <ol>
-
-            <li>Create a LifeLinkQR account.</li>
-
-            <li>Receive your unique QR profile.</li>
-
-            <li>An authorised professional scans it.</li>
-
-            <li>Firebase verifies the professional's role.</li>
-
-            <li>Only authorised information is displayed.</li>
-
-        </ol>
-
-    </section>
-
-
-    <section class="card">
-      <h2>🌐 LifeLinkQR Marketplace</h2>
-      <p>Customers can discover professionals and request services without receiving access to protected scanner records.</p>
-      <div class="buttons"><a href="customer-register.html">Become a Customer</a><a href="find-professionals.html">Find Professionals</a></div>
-    </section>
+  <section class="card">
+    <span class="ll-kicker">Beyond the QR</span>
+    <div class="ll-page-title"><div><h2>A trusted services marketplace built around verified identity.</h2><p>Customers can discover professionals, review trust signals and request services without receiving access to protected scanner records.</p></div><div class="buttons"><a href="find-professionals.html">Explore professionals</a></div></div>
+    <div class="ll-feature-strip"><div class="ll-feature"><strong>Verified profiles</strong><span>Identity, profession, skills and qualification signals in one place.</span></div><div class="ll-feature"><strong>Service requests</strong><span>Move naturally from discovery to a quote or service request.</span></div><div class="ll-feature"><strong>Accountability</strong><span>Access history and reputation features build confidence over time.</span></div></div>
+  </section>
 </main>
-
+<footer>LifeLinkQR • Secure identity, controlled access and trusted services.</footer>
+<script src="js/ui.js"></script>
 </body>
 </html>
-
-
