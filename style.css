@@ -699,3 +699,262 @@ body {
   color:var(--muted,#667085);
   font-size:.86rem;
 }
+
+
+/* =========================================================
+   LifeLinkQR Presentation Repair — Scanner Modal + Admin UI
+   ========================================================= */
+
+/* Scanner result modal */
+body.modal-open { overflow: hidden; }
+
+.result-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.result-modal.show { display: flex; }
+
+.result-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 15, 35, .72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.result-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  max-height: min(82vh, 760px);
+  overflow: auto;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 30px 90px rgba(0, 20, 55, .34);
+  animation: llModalIn .22s ease-out;
+}
+
+@keyframes llModalIn {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #dce6f2;
+  border-radius: 50%;
+  color: #23334d;
+  background: #f5f8fc;
+  box-shadow: none;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.modal-bottom-close {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.modal-access-box {
+  padding: 4px 0 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.modal-category {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,#e9f2ff,#e9fffb);
+  font-size: 32px;
+}
+
+.result-dialog h2 {
+  margin: 0 44px 7px;
+  text-align: center;
+  color: #0b1830;
+}
+
+.patient-name {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #60708a;
+  font-weight: 700;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: minmax(130px,.8fr) minmax(0,1.2fr);
+  gap: 16px;
+  align-items: start;
+  padding: 12px 2px;
+  border-bottom: 1px solid #e7edf5;
+}
+
+.info-row span {
+  color: #69778e;
+  font-size: .9rem;
+}
+
+.info-row strong {
+  color: #17243b;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.privacy-note {
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid #cfe8e2;
+  border-radius: 13px;
+  color: #126456;
+  background: #effbf8;
+  font-size: .9rem;
+}
+
+/* Admin control centre */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 15px;
+  margin: 0 0 22px;
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 150px;
+  padding: 22px;
+  border: 1px solid #dce6f2;
+  border-radius: 20px;
+  background: linear-gradient(155deg,#ffffff 0%,#f6f9fd 100%);
+  box-shadow: 0 9px 25px rgba(10,35,70,.07);
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  right: -28px;
+  bottom: -30px;
+  border-radius: 50%;
+  background: rgba(13,99,243,.06);
+}
+
+.stat-card > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 14px;
+  border-radius: 13px;
+  background: #edf4ff;
+  font-size: 21px;
+}
+
+.stat-card > strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #0b1830;
+  font-size: clamp(1.75rem,3vw,2.35rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.stat-card > small {
+  color: #64738b;
+  font-size: .84rem;
+  font-weight: 800;
+}
+
+.admin-quick-actions { margin-bottom: 22px; }
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.section-heading h2 { margin: 0 0 5px; }
+.section-heading p { margin: 0; }
+
+.admin-action-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 14px;
+}
+
+.admin-action-grid .action-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 155px;
+  padding: 20px;
+  border: 1px solid #dce6f2;
+  border-radius: 18px;
+  color: #15243c;
+  background: linear-gradient(180deg,#fff,#f8fbff);
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(10,35,70,.05);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.admin-action-grid .action-card:hover {
+  transform: translateY(-3px);
+  border-color: #a9c9f5;
+  box-shadow: 0 14px 30px rgba(10,35,70,.10);
+}
+
+.quick-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: #edf4ff;
+  font-size: 23px;
+}
+
+.admin-action-grid strong {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.admin-action-grid small {
+  color: #68768c;
+  line-height: 1.45;
+}
+
+@media (max-width: 980px) {
+  .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .admin-action-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 600px) {
+  .result-dialog { padding: 25px 18px 20px; border-radius: 20px; }
+  .info-row { grid-template-columns: 1fr; gap: 4px; }
+  .info-row strong { text-align: left; }
+  .stats-grid, .admin-action-grid { grid-template-columns: 1fr; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
+}
